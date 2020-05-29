@@ -105,3 +105,6 @@ p.copyright {
   height: 100%;
   margin: 0 auto -4em;
 }
+.img-rounded{
+    border-radius: 20px;
+}
