@@ -16,8 +16,18 @@ def login():
     if form.validate_on_submit():
         employee = Employee.query.filter_by(email=form.email.data).first()
         if employee is not None and employee.verify_password(form.password.data):
+            import urllib, hashlib
+            
+            # Set your variables here
+            email = employee.email
+            default = "https://www.example.com/default.jpg"
+            size = 40
+            
+            # construct the url
+            gravatar_url = "https://www.gravatar.com/avatar/" + hashlib.md5(email.lower().encode('utf-8')).hexdigest() + "?"
+            gravatar_url += urllib.urlencode({'d':default, 's':str(size)})
             login_user(employee)
-            return redirect(url_for('home.dashboard'))
+            return redirect(url_for('home.dashboard', gravatar=gravatar_url))
         flash('Invalid email or password')
     return render_template('auth/login.html', form=form, title='Login')
 
